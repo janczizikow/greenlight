@@ -12,7 +12,7 @@ type Movie struct {
 	// Movie release year
 	Year int32 `json:"year,omitempty"`
 	// Movie runtime (in minutes)
-	Runtime int32 `json:"runtime,omitempty,string"`
+	Runtime Runtime `json:"runtime,omitempty"`
 	// Slice of genres for the move (romance, comedy, etc.)
 	Genres []string `json:"genres,omitempty"`
 	// The version number starts at 1 and will be
