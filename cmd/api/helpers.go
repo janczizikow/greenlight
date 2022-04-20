@@ -8,9 +8,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-// any is an alias for interface{} and is equivalent to interface{} in all ways.
-type any = interface{}
-
 type envelope map[string]interface{}
 
 // Retrive the "id" URL parameter from the current request context, then convert it to
