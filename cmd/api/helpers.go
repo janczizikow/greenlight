@@ -11,6 +11,8 @@ import (
 // any is an alias for interface{} and is equivalent to interface{} in all ways.
 type any = interface{}
 
+type envelope map[string]interface{}
+
 // Retrive the "id" URL parameter from the current request context, then convert it to
 // an integer and return it. If the operation isn't successful, return 0 and an error.
 func (app *application) readIDParam(r *http.Request) (int64, error) {
@@ -19,9 +21,10 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	return strconv.ParseInt(params.ByName("id"), 10, 64)
 }
 
-func (app *application) writeJSON(w http.ResponseWriter, status int, data any, headers http.Header) error {
-	js, err := json.Marshal(data)
-
+func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
+	// Use the json.MarshalIndent() function so that whitespace is added to the encoded JSON.
+	// Here we use no line prefix ("") and tab indents ("\t") for each element.
+	js, err := json.MarshalIndent(data, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -39,13 +42,8 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data any, h
 	}
 
 	w.Header().Set("Content-type", "application/json")
-
 	w.WriteHeader(status)
-	_, err = w.Write([]byte(js))
+	_, err = w.Write(js)
 
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
