@@ -9,4 +9,7 @@ migrate:
 rollback:
 	migrate -path=./migrations -database=$(GREENLIGHT_DB_DSN) down 1
 
-.PHONEY: run migrate rollback
+psql:
+	@psql $(GREENLIGHT_DB_DSN)
+
+.PHONEY: run migrate rollback psql
